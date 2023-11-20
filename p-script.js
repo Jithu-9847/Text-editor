@@ -4,16 +4,42 @@ var output = document.getElementById('output');
 var IN;
 var input_txt;
 var loop;
+
+function copy(){
+    var copyText=output;
+    
+  copyText.setSelectionRange(0, 99999);
+
+    
+  navigator.clipboard.writeText(copyText.value);
+  document.getElementById("copy_ms").style.display="block";
+  setTimeout(() => {
+    document.getElementById("copy_ms").style.display="none";
+  },  2000);
+}
+
 function call() {
     input_txt=input.value;
      input_txt= input_txt.replaceAll("{",";");
      input_txt= input_txt.replaceAll("}",";");
+     input_txt= input_txt.replaceAll("\n","");
+     input_txt= input_txt.replaceAll("\t","");
     IN =  input_txt.split(";");
     
     output.value = "";
     console.log(IN);
-
+    
     IN.forEach(element => {
+        element=element.replaceAll("\n","");
+        element=element.replaceAll("\t","");
+
+        if((element.includes("void")&&element.includes("(")&&element.includes(")"))||(element.includes("void")&&element.includes("(")&&element.includes(")")))
+        {
+
+            output.value = output.value +"\r\nProcedure "+ element+"{\r\n";
+            return;
+        }
+         
 
         if(element.includes("if"))
         {
@@ -45,11 +71,18 @@ function call() {
             loop = "for";
             return;
         }
+        if (element.includes("while")) {
+            
+            output.value = output.value +"\r\n"+ element;
+            return;
+        }
+         
         if (element.includes("=")) {
-            if (loop != "for") {
+            if (loop != "for"||loop !="while") {
                 equal(element);
                 return;
             }
+        
 
         }
 
@@ -57,14 +90,32 @@ function call() {
             conditional(element);
             return;
         }
-         
+         if(element.includes("++)")||element.includes("--)")||element.includes("return"))
+         {
 
+         }
+    else
+    {
+     output.value = output.value + element+"\r\n";
+     return;
+    
+    }
+       
 
+       if(element.includes("return"))
+       {
+        output.value = output.value +"\r\n"+ element;
+        return;
+       }
+       output.value = output.value +"\r\n"+ element;
+      
     });
+    output.value = output.value +"\r\n}";
 
 }
 var i;
 function datatype(element) {
+
     output.value = output.value + "Declare ";
     element = element.trim();
 
@@ -74,7 +125,7 @@ function datatype(element) {
 function equal(element) {
      
     if (loop != "for") {
-        output.value = output.value + "Set ";
+        output.value = output.value + "\r\nSet ";
         if (element.includes("\n"))
         element=element.replaceAll("\n","");
         element=element.trim();
