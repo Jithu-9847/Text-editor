@@ -54,7 +54,11 @@ function call() {
             output.value = output.value +"\r\nProcedure "+ element+"{\r\n";
             return;
         }
-         
+        if(element.includes("return"))
+        {
+         output.value = output.value +"\r\n"+ element+"\r\n";
+         return;
+        }
         if(element.includes("(")&&element.includes(")"))
         {
             if(element.includes("\"")||element.includes("<")||element.includes(">")||element.includes("!")||element.includes("==")||element.includes("="))
@@ -124,11 +128,7 @@ function call() {
           
        
 
-       if(element.includes("return"))
-       {
-        output.value = output.value +"\r\n"+ element;
-        return;
-       }
+        
        output.value = output.value +"\r\n"+ element;
       
     });
