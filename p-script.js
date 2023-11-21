@@ -4,6 +4,11 @@ var output = document.getElementById('output');
 var IN;
 var input_txt;
 var loop;
+document.getElementById('clear').addEventListener("click",()=>{
+     
+    input.value="";
+})
+     
 
 function copy(){
     var copyText=output;
@@ -19,27 +24,45 @@ function copy(){
 }
 
 function call() {
+    if(input.value!="")
+    {
     input_txt=input.value;
      input_txt= input_txt.replaceAll("{",";");
      input_txt= input_txt.replaceAll("}",";");
      input_txt= input_txt.replaceAll("\n","");
      input_txt= input_txt.replaceAll("\t","");
+     input_txt= input_txt.replaceAll("++)",";");
+     input_txt= input_txt.replaceAll("--)",";");
     IN =  input_txt.split(";");
     
     output.value = "";
-    console.log(IN);
+     
     
     IN.forEach(element => {
         element=element.replaceAll("\n","");
         element=element.replaceAll("\t","");
-
-        if((element.includes("void")&&element.includes("(")&&element.includes(")"))||(element.includes("void")&&element.includes("(")&&element.includes(")")))
+        if(element.length<=2){
+            return;
+        }
+        if(((element.includes("void")&&element.includes("(")&&element.includes(")"))||(element.includes("void")&&element.includes("(")&&element.includes(")")))||(element.includes("int ")&&element.includes("(")&&element.includes(")"))||(element.includes("int ")&&element.includes("(")&&element.includes(")")))
         {
 
             output.value = output.value +"\r\nProcedure "+ element+"{\r\n";
             return;
         }
          
+        if(element.includes("(")&&element.includes(")"))
+        {
+            if(element.includes("\"")||element.includes("<")||element.includes(">")||element.includes("!")||element.includes("==")||element.includes("="))
+            {
+
+            }
+            else{ output.value = output.value +"\r\ncall "+ element+"\r\n";
+            return;}
+           
+        }
+        
+        
 
         if(element.includes("if"))
         {
@@ -73,10 +96,14 @@ function call() {
         }
         if (element.includes("while")) {
             
-            output.value = output.value +"\r\n"+ element;
+            
+            output.value = output.value +"\r\n"+ element+"\r\n";
             return;
         }
-         
+         if(element.includes("do"))
+         {
+            output.value = output.value + element+"{\r\n";
+         }
         if (element.includes("=")) {
             if (loop != "for"||loop !="while") {
                 equal(element);
@@ -90,16 +117,7 @@ function call() {
             conditional(element);
             return;
         }
-         if(element.includes("++)")||element.includes("--)")||element.includes("return"))
-         {
-
-         }
-    else
-    {
-     output.value = output.value + element+"\r\n";
-     return;
-    
-    }
+          
        
 
        if(element.includes("return"))
@@ -111,7 +129,7 @@ function call() {
       
     });
     output.value = output.value +"\r\n}";
-
+    }
 }
 var i;
 function datatype(element) {
