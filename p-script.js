@@ -27,12 +27,16 @@ function call() {
     if(input.value!="")
     {
     input_txt=input.value;
+    if(input_txt.includes("switch")){
+        alert("Sorry!😔 It seems your code contains switch case, Switch case to psuedo code is in under development.");
+        return;
+    }
      input_txt= input_txt.replaceAll("{",";");
      input_txt= input_txt.replaceAll("}",";");
      input_txt= input_txt.replaceAll("\n","");
      input_txt= input_txt.replaceAll("\t","");
-     input_txt= input_txt.replaceAll("++)",";");
-     input_txt= input_txt.replaceAll("--)",";");
+    //  input_txt= input_txt.replaceAll("++)",";");
+    //  input_txt= input_txt.replaceAll("--)",";");
     IN =  input_txt.split(";");
     
     output.value = "";

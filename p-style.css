@@ -88,9 +88,14 @@ p{
 #copy_ms{
     position: absolute;
     left: 50%;
-    top: 80%;
+    top: 79%;
     display: none;
      
+}
+#clear{
+    position: absolute;
+    top: 79%;
+    left: 5%;
 }
 @media  (max-width:500px) {
     #text_input{
