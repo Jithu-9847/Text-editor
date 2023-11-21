@@ -48,7 +48,7 @@ function call() {
         if(element.length<=2){
             return;
         }
-        if(((element.includes("void")&&element.includes("(")&&element.includes(")"))||(element.includes("void")&&element.includes("(")&&element.includes(")")))||(element.includes("int ")&&element.includes("(")&&element.includes(")"))||(element.includes("int ")&&element.includes("(")&&element.includes(")")))
+        if(((element.includes("void")&&element.includes("(")&&element.includes(")"))||(element.includes("void")&&element.includes("(")&&element.includes(")")))||(element.includes("int ")&&element.includes("(")&&element.includes(")"))||(element.includes("int ")&&element.includes("(")&&element.includes(")"))||(element.includes("char ")&&element.includes("(")&&element.includes(")"))||(element.includes("char ")&&element.includes("(")&&element.includes(")")))
         {
 
             output.value = output.value +"\r\nProcedure "+ element+"{\r\n";
